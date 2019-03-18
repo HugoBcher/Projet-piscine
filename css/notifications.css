@@ -1,0 +1,16 @@
+h1{
+    color: white;
+}
+
+.mapage {
+    width: 100%;
+    height: 100px;
+    margin-top: 0px;
+    text-align: center;
+    font-size: 28px;
+    color: white;
+}
+
+.colgauche {
+    text-align: center;
+}
