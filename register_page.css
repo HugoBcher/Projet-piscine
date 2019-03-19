@@ -20,6 +20,15 @@ h1.title {
     font-family: 'Passion One', cursive;
     font-weight: 400;  
 }
+h3.caca{ 
+	margin: 10px;
+    color: white;
+    text-align: center;
+    font-size: 50px;
+    font-family: 'Passion One', cursive;
+    font-weight: 400;  
+}
+
 
 hr{
 	width: 10%;
