@@ -13,7 +13,7 @@
             	$mail = $_POST['mail'];
             	$pseudo = $_POST['pseudo'];
                 $mdp = $_POST['mdp'];
-                $ecole = $_POST['school'];
+                $school = $_POST['school'];
                 $level = $_POST['level'];
                 $tag1 = $_POST['tag1'];
 
@@ -23,7 +23,7 @@
                 $result2 = mysqli_query($db_handle, $SQL2);
                 $db_field2=mysqli_fetch_assoc($result2);  
 
-                $SQL3 = "INSERT INTO tutor (LoginT, Password, LastName, FirstName, School, Photo, Mail, Sector, Level, Tag1, Tag2, Tag3, Tag4) VALUES ('$pseudo', '$mdp', '$nom', '$prenom', '$ecole', 'images/avatar.png', '$mail', '', '$level', '$tag1', '', '', '')";
+                $SQL3 = "INSERT INTO tutor (LoginT, Password, LastName, FirstName, School, Photo, Mail, Sector, Level, Tag1, Tag2, Tag3, Tag4) VALUES ('$pseudo', '$mdp', '$nom', '$prenom', '$school', 'images/avatar.png', '$mail', '', '$level', '$tag1', '', '', '')";
                 $result3 = mysqli_query($db_handle, $SQL3);
 
 
