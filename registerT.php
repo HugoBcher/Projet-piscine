@@ -17,7 +17,7 @@
                 $level = $_POST['level'];
                 $tag1 = $_POST['tag1'];
 
-                $SQL = "INSERT INTO utilisateur (nom, prenom, pseudo, email, chemin_profil, chemin_fond, type, Paswword) VALUES('$nom','$prenom','$pseudo','$mail', 'images/avatar.png', '', '0', '$mdp')";
+                $SQL = "INSERT INTO utilisateur (nom, prenom, pseudo, email, chemin_profil, chemin_fond, type, Password) VALUES('$nom','$prenom','$pseudo','$mail', 'images/avatar.png', '', '0', '$mdp')";
                 $result = mysqli_query($db_handle, $SQL);
                 $SQL2 = "SELECT id FROM utilisateur WHERE pseudo= '".$pseudo."' ";
                 $result2 = mysqli_query($db_handle, $SQL2);
