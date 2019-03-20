@@ -120,12 +120,44 @@ session_start();
                                 
                                 <input class="btn btn-outlined" style="background-color: black; color: white; margin-left: 50px;"type="submit" name="rechercher" value="Rechercher" /> 
                             </form>
+                            
                              
                             
                                 </div>
                         
+                        
           
-                    </div><!-- row -->        
+                    </div><!-- row --> 
+                    <?php
+                                 require 'configure.php' ;
+                                if($db_handle && $db_found){
+                                    
+                                    $recherche = $_POST['rech'];
+                                    echo'<div> <h3>TUTEURS</h3> </div>';
+                                    
+                                    $SQLt = "SELECT * FROM tutor WHERE Tag1 = '".$recherche."' OR Level = '".$recherche."' OR Tag2 ='".$recherche."' OR Tag3 ='".$recherche."' OR Tag4 = '".$recherche."' OR School = '".$recherche."' OR Sector = '".$recherche."'";
+                                    $resultt = mysqli_query($db_handle, $SQLt);
+                                    while($db_fieldt=mysqli_fetch_assoc($resultt)){
+                                        echo '<div> <b> <a href="indexL.php">'.$db_fieldt['LoginT'].'</a></b> - Ecole : '.$db_fieldt['School'].' Bac obtenu : '.$db_fieldt['Tag1'].'</div><br>' ;
+                                        
+                            
+                                    }
+                                    echo'<div> <h3> ECOLES</h3> </div>';
+                                    $SQLschool = "SELECT * FROM school WHERE Name = '".$recherche."'";
+                                    $resultschool = mysqli_query($db_handle, $SQLschool);
+                                    while($db_fieldschool=mysqli_fetch_assoc($resultschool)){
+                                        echo '<div> <b> <a href="indexL.php">'.$db_fieldschool['Name'].'</a></b> - '.$db_fieldschool['Description'].'</div><br> ' ;
+                                        
+                            
+                                    }
+                                    
+                                    
+                                    
+                                }
+                            
+                            
+                            
+                            ?>
                 </div>
             </section>
         <section id="services" class="white">
