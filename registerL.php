@@ -10,16 +10,19 @@
                 if($db_handle && $db_found){
             	$nom = $_POST['nom'];
             	$prenom = $_POST['prenom'];
+				$mdp = $_POST['mdp'];
             	$mail = $_POST['mail'];
             	$pseudo = $_POST['pseudo'];
+				$filiere = $_POST['filiere'];
+				$classe = $_POST['classe'];
 
-                $SQL = "INSERT INTO utilisateur (nom, prenom, pseudo, email, chemin_profil, chemin_fond) VALUES('$nom','$prenom','$pseudo','$mail', 'images/avatar.png', '')";
+                $SQL = "INSERT INTO utilisateur (nom, prenom, pseudo, email, chemin_profil, chemin_fond,type) VALUES('$nom','$prenom','$pseudo','$mail', 'images/avatar.png', '','1')";
                 $result = mysqli_query($db_handle, $SQL);
                 $SQL2 = "SELECT id FROM utilisateur WHERE pseudo= '".$pseudo."' ";
                 $result2 = mysqli_query($db_handle, $SQL2);
                 $db_field2=mysqli_fetch_assoc($result2);  
 
-                $SQL3 = "INSERT INTO cv (idutilisateur) VALUES ('".$db_field2['id']."')";
+                $SQL3 = "INSERT INTO student (LoginS,Password,LastName,FirstName,Photo,Mail,Sector,Level,Tag1,Tag2,Tag3,Tag4,Description) VALUES ('$pseudo','$mdp','$nom','$prenom','images/avatar.png','$mail','$filiere','$classe','','','','','')";
                 $result3 = mysqli_query($db_handle, $SQL3);
 
 
