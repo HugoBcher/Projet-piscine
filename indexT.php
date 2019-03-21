@@ -88,7 +88,19 @@ session_start();
                     <li class="dropdown active">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="images/icones/vous.png" style="height: 30px; width: 30px; margin: 3px;">Vous <i class="icon-angle-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="vous.php">Mon Profil</a></li>
+                            <li>
+                            <?php 
+                    
+                    if($type==0){
+                        
+                        echo '<a href="vousT.php">Mon Profil</a>';
+                    }
+                    else if ($type==1){
+                        echo '<a href="vousL.php"> Mon Profil </a>';
+                    }
+                
+                        ?>
+                                 </li>
                             <li><a href="deconnexion.php">Déconnexion</a></li>
                         </ul>
                     </li>

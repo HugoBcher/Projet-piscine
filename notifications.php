@@ -106,7 +106,19 @@ session_start();
                     <li class="dropdown active">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="images/icones/vous.png" style="height: 30px; width: 30px; margin: 3px;">Vous <i class="icon-angle-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="vous.php">Mon Profil</a></li>
+                            <li>
+                            <?php 
+                    
+                    if($type==0){
+                        
+                        echo '<a href="vousT.php">Mon Profil</a>';
+                    }
+                    else if ($type==1){
+                        echo '<a href="vousL.php"> Mon Profil </a>';
+                    }
+                
+                        ?>
+                                 </li>
                             <li><a href="deconnexion.php">Déconnexion</a></li>
                         </ul>
                     </li>
@@ -115,135 +127,34 @@ session_start();
         </div>
     </header><!--/header-->
     
-    <div id="content-wrapper" style="margin-top: 100px;">
-        <div class="mapage"> 
-                            <h1> Notifications </h1>
+    <div id="content-wrapper" style="margin-top: 81px;">
+        
+            <div class="mapage"style="background-color: #ABBED6;"> 
+                            
+                            <h1> <br>Notifications </h1>
                     
         </div>
         <section id="portfolio" class="white">
             <div class="container">
                 <div class="row">
                     
-                    <div class="col-md-4">
-                     <h3>Demandes d'ajout au réseau</h3>
-                        
-                <?php 
-                require 'configure.php' ;
-                if($db_handle && $db_found){
-                    
-                    $SQLid = "SELECT id FROM utilisateur WHERE pseudo = '".$_SESSION['pseudo']."'" ;
-                    $resultid = mysqli_query($db_handle, $SQLid);
-                    $db_fieldid=mysqli_fetch_assoc($resultid);
-                    $id = $db_fieldid['id'];
-
-                    $SQL = "SELECT * FROM utilisateur WHERE id IN (SELECT iddemandeur FROM `notificationamitie` WHERE id = '".$id."')" ;
-                    $result = mysqli_query($db_handle, $SQL);
-                    
-                    $SQLcount = "SELECT COUNT(*) AS nb FROM utilisateur WHERE id IN (SELECT iddemandeur FROM notificationamitie WHERE id = '".$id."')" ;
-                    $resultcount = mysqli_query($db_handle, $SQLcount);
-                    $db_fieldcount=mysqli_fetch_assoc($resultcount);
-                    $nb = $db_fieldcount['nb'];
-                    if($nb==0){
-                        echo '<div style="margin-left: 5px;"> <h5> Vous n\'avez aucune demande de relation.</h5></div>';
-                    }
-                    else {
-                        echo '<div style="margin-left: 5px;"> <h5> Vous avez '.$nb.' demande(s) de relation.</h5></div>';
-                        while($db_field=mysqli_fetch_assoc($result)){
-                        
-                         $idami = $db_field['id'];
-                         
-                            
-                         echo '
-        
-            <div class="container">
-            <div class="gap"></div>             
-                <div class="row">
-                    <div class="col-md-4 col-sm-6">
-                        <div class="service-block">
-                            <div class="pull-left bounce-in">
-                                <img src="'.$db_field['chemin_profil'].'" style="height: 60px; width: 60px; margin-right: 10px;">
-                            </div>
-                            <div class="media-body fade-up">
-                                <h3 class="media-heading" style="margin-right: 2px;"><a href="profil.php?id='.$idami.'">'.$db_field['prenom'].' '.$db_field['nom'].'</a>
-                                
-                                </h3>
-                            
-                                <form method="post" action="accepterami.php" style="margin-right:0px;">
-                                    <input type="hidden" name="idami" value="'.$idami.'"/>
-                                    <input type="submit" value="Accepter" style="background-color: black; color: white;"/>
-                                </form> 
-                                <form method="post" action="refuserami.php" style="margin-right:0px;">
-                                    <input type="hidden" name="idami" value="'.$idami.'"/>
-                                    <input type="submit" value="Refuser" style="background-color: black; color: white;"/>
-                                </form> 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
                     
                     
-                    
-                </div>
-            </div>
-            ';
-                        }
-                        
-                        
-                    }
-                    
-                    
-                    
-                    
-                }
-
-                ?>
-                    </div>
-                    
-                    <div class="col-md-8" >
-                        <h3 style="text-align: center;">Autres</h3>
+                    <div class="col-md-14" >
                         <div class="row" style="text-align: center;">
                             <div class="col-md-6" style=" border-style: solid;">
-                             <h4 >Commentaires </h4> <br>
+                             <h2 >Rendez-vous acceptés </h2> <br>
                                 
-                                <?php
-                                if($db_handle && $db_found){
-                                    $SQLnot ="SELECT idpost, date, j.nom, j.prenom, notificationcommentaire.idcommentateur AS idcommentateur FROM notificationcommentaire INNER JOIN utilisateur u ON notificationcommentaire.id = u.id INNER JOIN utilisateur j ON idcommentateur =j.id WHERE u.id='".$id."' AND j.id != '".$id."' ORDER BY date DESC" ;
-                                    $resultnot = mysqli_query($db_handle, $SQLnot);
-                                    while($db_fieldnot=mysqli_fetch_assoc($resultnot)){
-                                        $idpost=$db_fieldnot['idpost'];
-                                        
-                                        echo '<a href="profil.php?id='.$db_fieldnot['idcommentateur'].'">'.$db_fieldnot['prenom'].' '.$db_fieldnot['nom'].'</a> a commenté ce 
-                                        <form method="post" action="pagepost.php" style="margin: 0px; padding:0px;">
-                                        <input type="hidden" name="idpost" value="'.$idpost.'"/>
-                                        <input type="submit" value="post" style="margin: 0px;"/>
-                                        </form>';
-                                    }
-                                }
-                                ?>
+                               
                                 
                                 
                                 
                                 
                             </div>
                             <div class="col-md-6" style="text-align: center; border-style: solid;">
-                              <h4 style="text-align: center;">Likes </h4> <br>
+                              <h2 style="text-align: center;">Rendez-vous en attente </h2> <br>
                                 
-                                <?php
-                                if($db_handle && $db_found){
-                                    $SQLnot ="SELECT idpost, date, j.nom, j.prenom, notificationaime.idlikeur AS idlikeur FROM notificationaime INNER JOIN utilisateur u ON notificationaime.id = u.id INNER JOIN utilisateur j ON idlikeur =j.id WHERE u.id='".$id."' AND j.id != '".$id."' ORDER BY date DESC" ;
-                                    $resultnot = mysqli_query($db_handle, $SQLnot);
-                                    while($db_fieldnot=mysqli_fetch_assoc($resultnot)){
-                                        $idpost=$db_fieldnot['idpost'];
-                                        
-                                        echo '<a href="profil.php?id='.$db_fieldnot['idlikeur'].'">'.$db_fieldnot['prenom'].' '.$db_fieldnot['nom'].'</a> a aimé ce 
-                                        <form method="post" action="pagepost.php" style="margin: 0px; padding:0px;">
-                                        <input type="hidden" name="idpost" value="'.$idpost.'"/>
-                                        <input type="submit" value="post" style="margin: 0px;"/>
-                                        </form>';
-                                    }
-                                }
-                                ?>
+                               
                             </div>
                         
                         

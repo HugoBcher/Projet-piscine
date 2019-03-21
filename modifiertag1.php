@@ -14,9 +14,9 @@ session_start();
         require 'configure.php' ;
          if($db_handle && $db_found){
        
-            $formation = $_POST['formation'];
+            $tag1 = $_POST['tag1'];
                 
-                $SQL1 = "UPDATE tutor SET School = '".$formation."' WHERE LoginT =  '".$_SESSION['pseudo']."'";
+                $SQL1 = "UPDATE tutor SET Tag1 = '".$tag1."' WHERE LoginT =  '".$_SESSION['pseudo']."'";
                 $result1 = mysqli_query($db_handle, $SQL1);
               
                 echo '<meta http-equiv="refresh" content="0;URL=vousT.php">';

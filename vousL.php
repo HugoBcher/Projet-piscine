@@ -8,14 +8,15 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Mon réseau | Dischoolvery</title>
+    <title>Votre page | Dischoolvery </title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
+     
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/pe-icons.css" rel="stylesheet">
     <link href="css/prettyPhoto.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <link href="css/monreseau.css" rel="stylesheet">
+    <link href="css/vous.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -27,38 +28,25 @@ session_start();
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/images/ico/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57x57.png">
 
+    
+
     <script type="text/javascript">
+        var chemin = '<?php echo $chemin_fond ;?>';
+        
     jQuery(document).ready(function($){
     'use strict';
         jQuery('body').backstretch([
-            "http://placehold.it/800x600",
-            "http://placehold.it/800x600",
-            "http://placehold.it/800x600"
+            chemin
+
         ], {duration: 5000, fade: 500});
 
-        $("#mapwrapper").gMap({ controls: false,
-            scrollwheel: false,
-            markers: [{     
-                latitude:40.7566,
-                longitude: -73.9863,
-            icon: { image: "images/marker.png",
-                iconsize: [44,44],
-                iconanchor: [12,46],
-                infowindowanchor: [12, 0] } }],
-            icon: { 
-                image: "images/marker.png", 
-                iconsize: [26, 46],
-                iconanchor: [12, 46],
-                infowindowanchor: [12, 0] },
-            latitude:40.7566,
-            longitude: -73.9863,
-            zoom: 14 });
+        
     });
     </script>
 </head><!--/head-->
 <body>
 <div id="preloader"></div>
-      <header class="navbar navbar-inverse navbar-fixed-top " role="banner" style="background-color: #3F90F2;">
+     <header class="navbar navbar-inverse navbar-fixed-top " role="banner" style="background-color: #3F90F2;">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -126,81 +114,99 @@ session_start();
             </div>
         </div>
     </header><!--/header-->
-
-
     
-    <div id="content-wrapper" style="margin-top: 81px;">
-        <div class="mapage"style="background-color: #ABBED6;"> 
-                            <h1> <br>Mes messages </h1>
-                    
-                </div>
-        <section id="services" class="white">
-          
-            <div class="row">
-                <table class="table">
-                      <thead>
-                        <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">Name</th>
-                          <th scope="col">Last message</th>
-                          <th scope="col">Date</th>
-                        </tr>
-                      </thead>
-                <tbody>
-
-               
-                <div class="col-sm-6"style="margin-left:20px; font-size: 30px;">
-                     <?php
-                require 'configure.php' ;
-                if($db_handle && $db_found){
-                    $SQL1 = "SELECT id FROM utilisateur WHERE pseudo = '".$_SESSION['pseudo']."'" ;
-                    $result1 = mysqli_query($db_handle, $SQL1);
-                    $db_field1=mysqli_fetch_assoc($result1);
-                    $id = $db_field1['id'];
-
-                    $SQL2 = "SELECT nom,prenom,id FROM utilisateur WHERE  id IN (SELECT Member2_C FROM chat WHERE Member1_C = '".$id."')" ;
-                   
-                    $result2 = mysqli_query($db_handle, $SQL2);
-                     //$db_field2=mysqli_fetch_assoc($result2);
-                    $idami= 0 ;
-                   
-
-                    while($db_field2=mysqli_fetch_assoc($result2)){
-                     $SQL3 = "SELECT max(date_m),Text FROM message WHERE chat IN (SELECT ID_C FROM chat WHERE Member1_C = '".$id."' AND Member2_C = '".$db_field2['id']."') ";
-                     $result3 = mysqli_query($db_handle, $SQL3);
-                     $db_field3=mysqli_fetch_assoc($result3);
-                            echo ' 
-                                  <th scope="row">1</th>
-                                  <td> '.$db_field2['prenom'].' '.$db_field2['nom'].' </td>
-                                  <td> '.$db_field3['Text'].'  </td>
-                                  <td> '.$db_field3['max(date_m)'].'  </td>
-                                </tr>';                          
-                            
-                         
-                    }
-                    
-                                        
-                }
-    ?>
-    </body>
-    </table>
-                    
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-                </div>
-
-</div>
+    
+    <div id="content-wrapper" style="margin-top: 82px;">
 
             
-           
-        </section>
-    </div>
-    <div id="footer-wrapper">
+                            
+                    
         
+
+            <?php
+                 require 'configure.php' ;
+                if($db_handle && $db_found){
+                    $SQL1 = "SELECT * FROM utilisateur WHERE pseudo='".$_SESSION['pseudo']."'";
+                    $result1 = mysqli_query($db_handle, $SQL1);
+                    $db_field1=mysqli_fetch_assoc($result1);     
+                    
+                    echo '<div class="mapage" style="background-color: #ABBED6; height: 80px;">
+                            
+                                
+                                <div class="col-sm-5" >
+                                    <h1>'.$db_field1['prenom'].' '.$db_field1['nom'].'</h1>
+                                </div>
+                               
+                          </div>';
+                    }
+        
+                
+            ?>
+
+        
+
+        <section  class="white" style="padding-top: 0; margin-top: 0px; width: 100%;">
+            <div class="row" >
+            <div style="text-align: center; width: 100%;">
+                <h2 >Vos informations</h2>
+                
+                    <?php
+                        if($db_handle && $db_found){
+                        $SQL1 = "SELECT * FROM student WHERE LoginS = '".$_SESSION['pseudo']."'";
+                        $result1 = mysqli_query($db_handle, $SQL1);
+                        $db_field1=mysqli_fetch_assoc($result1);
+                            if($db_field1['Level']==1){
+                                $level="Seconde";
+                            }
+                            if($db_field1['Level']==2){
+                                $level="Premiere";
+                            }
+                            if($db_field1['Level']==3){
+                                $level="Terminale";
+                            }
+                        echo '<strong><br><br>Formation</strong><br> '.$db_field1['Sector'].' 
+                            <form method="post" action="modificationformationL.php">
+                                <input type="submit" value="Modifier la formation" style="background-color: #3F90F2; color: white; margin-top:15px; height: 30px; "/>
+                            </form>
+                        <br> <strong>Niveau d\'études</strong><br> '.$level.'
+                        <form method="post" action="modificationniveauL.php">
+                                <input type="submit" value="Modifier votre niveau" style="background-color: #3F90F2; color: white; margin-top:15px; height: 30px; "/>
+                                </form>
+                        <br> <strong>Intérêts </strong><br> '.$db_field1['Tag1'].'
+                        <br><form method="post" action="modificationtag1L.php">
+                            <input type="submit" value="Modifier les intérêts" style="background-color: #3F90F2; color: white; margin-top:15px; height: 30px; "/>
+                            </form>';
+
+                        }
+                    ?>
+            </div>
+                    
+            
+            
+            </div>
+                        
+
+        </section>
+
+
+
+            
+        </div>
+
+    <div id="footer-wrapper" style="background-color: #3F90F2;">
+        <section id="bottom" class="">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 about-us-widget">
+                        
+                    </div><!--/.col-md-3-->
+
+                    
+
+                   
+                </div>
+            </div>
+        </section><!--/#bottom-->
 
         <footer id="footer" class=""  >
             <div class="container" >
@@ -225,9 +231,10 @@ session_start();
         </footer><!--/#footer-->
     </div>
 
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.prettyPhoto.js"></script>
+
     <script src="js/plugins.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.prettyPhoto.js"></script>   
     <script src="js/init.js"></script>
 </body>
 </html>

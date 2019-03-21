@@ -28,15 +28,7 @@ session_start();
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/images/ico/apple-touch-icon-72x72.png">
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57x57.png">
 
-    <?php
-                 require 'configure.php' ;
-                if($db_handle && $db_found){
-                    $SQL1 = "SELECT chemin_fond FROM utilisateur WHERE pseudo='".$_SESSION['pseudo']."'";
-                    $result1 = mysqli_query($db_handle, $SQL1);
-                    $db_field1=mysqli_fetch_assoc($result1);     
-                    $chemin_fond=$db_field1['chemin_fond'];
-                    }    
-    ?>
+    
 
     <script type="text/javascript">
         var chemin = '<?php echo $chemin_fond ;?>';
@@ -102,7 +94,19 @@ session_start();
                     <li class="dropdown active">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="images/icones/vous.png" style="height: 30px; width: 30px; margin: 3px;">Vous <i class="icon-angle-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="vous.php">Mon Profil</a></li>
+                            <li>
+                            <?php 
+                    
+                    if($type==0){
+                        
+                        echo '<a href="vousT.php">Mon Profil</a>';
+                    }
+                    else if ($type==1){
+                        echo '<a href="vousL.php"> Mon Profil </a>';
+                    }
+                
+                        ?>
+                                 </li>
                             <li><a href="deconnexion.php">Déconnexion</a></li>
                         </ul>
                     </li>
@@ -112,9 +116,12 @@ session_start();
     </header><!--/header-->
     
     
-    <div id="content-wrapper" style="margin-top: 100px;">
+    <div id="content-wrapper" style="margin-top: 82px;">
 
             
+                            
+                    
+        
 
             <?php
                  require 'configure.php' ;
@@ -123,32 +130,13 @@ session_start();
                     $result1 = mysqli_query($db_handle, $SQL1);
                     $db_field1=mysqli_fetch_assoc($result1);     
                     
-                    echo '<div class="mapage">
-                            <div class="row">
-                                <div class="col-sm-2" style="margin-left: 10px;">
-                                    <img src="'.$db_field1['chemin_profil'].'" style="height: 120px; width:140px;  margin-left:10px; margin-top:10px;">
-                                </div>
-                                <div class="col-sm-2">
-                                <form method="post" action="modificationphoto.php" style="margin-right:0px; margin-left: 0px;">
-                                    <input type="submit" value="Modifier la photo de profil" style="background-color: black; color: white; margin-top: 15px;  height: 30px; "/>
-                                </form> 
-                                <form method="post" action="supressionphoto.php" style="margin-right:0px; ">
-                                    <input type="submit" value="Supprimer la photo de profil" style="background-color: black; color: white; margin-top: 5px; height: 30px;"/>
-                                </form> 
+                    echo '<div class="mapage" style="background-color: #ABBED6; height: 80px;">
+                            
                                 
-                                </div>
                                 <div class="col-sm-5" >
-                                    <h1>Ma page : '.$db_field1['prenom'].' '.$db_field1['nom'].' ('.$_SESSION['pseudo'].')</h1>
+                                    <h1>'.$db_field1['prenom'].' '.$db_field1['nom'].'</h1>
                                 </div>
-                                <div class="col-sm-2" >
-                                    <form method="post" action="modificationphotofond.php" style="margin-right:0px; margin-left: 0px;">
-                                    <input type="submit" value="Modifier la photo de fond" style="background-color: black; color: white; margin-top: 15px;  height: 30px; "/>
-                                </form> 
-                                <form method="post" action="suppressionphotofond.php" style="margin-right:0px; ">
-                                    <input type="submit" value="Supprimer la photo de fond" style="background-color: black; color: white; margin-top: 5px; height: 30px;"/>
-                                </form> 
-                                </div>
-                            </div>    
+                               
                           </div>';
                     }
         
@@ -157,99 +145,41 @@ session_start();
 
         
 
-        <section id="about-us" class="white" style="padding-top: 0; margin-top: 0px;">
-            <div class="row " >
-            <div class="col-sm-4 colgauche">
-                <h3 style="text-align: center;">Infos</h3>
-                <div style="text-align: left; margin-left: 50px;">
+        <section  class="white" style="padding-top: 0; margin-top: 0px; width: 100%;">
+            <div class="row" >
+            <div style="text-align: center; width: 100%;">
+                <h2 >Vos informations</h2>
+                
                     <?php
                         if($db_handle && $db_found){
-                        $SQL1 = "SELECT * from cv WHERE idutilisateur = (SELECT id FROM utilisateur WHERE pseudo = '".$_SESSION['pseudo']."')";
+                        $SQL1 = "SELECT * FROM tutor WHERE LoginT = '".$_SESSION['pseudo']."'";
                         $result1 = mysqli_query($db_handle, $SQL1);
                         $db_field1=mysqli_fetch_assoc($result1);
-                        echo '<strong><br><br>Formation :</strong><br> '.$db_field1['formation'].' 
+                        echo '<strong><br><br>Formation</strong><br> '.$db_field1['School'].' 
                             <form method="post" action="modificationformation.php">
-                                <input type="submit" value="Modifier la formation" style="background-color: black; color: white; margin-top:15px; height: 30px; "/>
+                                <input type="submit" value="Modifier la formation" style="background-color: #3F90F2; color: white; margin-top:15px; height: 30px; "/>
                             </form>
-                        <br> <strong>Expérience :</strong><br> '.$db_field1['experience'].'
-                        <form method="post" action="modificationexperience.php">
-                                <input type="submit" value="Modifier les expériences" style="background-color: black; color: white; margin-top:15px; height: 30px; "/>
+                        <br> <strong>Niveau d\'études</strong><br> Bac+'.$db_field1['Level'].'
+                        <form method="post" action="modificationniveau.php">
+                                <input type="submit" value="Modifier votre niveau" style="background-color: #3F90F2; color: white; margin-top:15px; height: 30px; "/>
                                 </form>
-                        <br><br> <strong>Intérêts :</strong><br> '.$db_field1['interets'].'
-                        <br><form method="post" action="modificationinterets.php">
-                            <input type="submit" value="Modifier les intérêts" style="background-color: black; color: white; margin-top:15px; height: 30px; "/>
-                            </form>';
+                        <br> <strong>Bac obtenu </strong><br> '.$db_field1['Tag1'].'
+                        <br><form method="post" action="modificationtag1.php">
+                            <input type="submit" value="Modifier le bac obtenu" style="background-color: #3F90F2; color: white; margin-top:15px; height: 30px; "/>
+                            </form>
+                             <br> <strong>Filière</strong><br> '.$db_field1['Tag2'].'
+                        <br><form method="post" action="modificationtag2.php">
+                            <input type="submit" value="Modifier la filière" style="background-color: #3F90F2; color: white; margin-top:15px; height: 30px; "/>
+                            </form>
+                            
+                            ';
 
                         }
                     ?>
-                </div>
             </div>
                     
             
-            <div class="col-sm-8">
-        	<div style="margin-top: 10px;">
-                
-                
-              
-                <?php
-
-                if($db_handle && $db_found){
-                    $SQL1 = "
-                    SELECT post.id as id, prenom, nom, chemin, texte, date FROM post INNER JOIN photo ON post.id = photo.id INNER JOIN utilisateur ON post.idutilisateur = utilisateur.id WHERE post.idutilisateur = (SELECT id FROM utilisateur WHERE pseudo='".$_SESSION['pseudo']."') ORDER BY post.date DESC";
-                    $result1 = mysqli_query($db_handle, $SQL1);
-                    
-                    
-                    while($db_field1=mysqli_fetch_assoc($result1)) {
-                        $idpost = $db_field1['id'];
-                        
-                        //$db_field2=mysqli_fetch_assoc($result2);
-                        echo '<div style="margin-bottom: 10px;" class="col-sm-12">
-                    <div style="border: 1px solid #0B0000;" class="row">
-                    
-                        <div class="col-sm-6" ><h3>Posté par : '. $db_field1['prenom'].' '.$db_field1['nom'].'</h3></div>
-                    
-                    
-                        <div class="col-sm-4"><h3>Date : '.$db_field1['date'].' </h3></div>
-                        
-                        <div class="col-sm-2">
-                        <form method="post" action="modificationpost.php" style="margin-right:0px;">
-                            <input type="hidden" name="idpost" value="'.$idpost.'"/>
-                            <input type="submit" value="Modifier" style="background-color: black; color: white; margin-top: 15px;  height: 30px; "/>
-                        </form> 
-                        <form method="post" action="suppressionpost.php" style="margin-right:0px; ">
-                            <input type="hidden" name="idpost" value="'.$idpost.'"/>
-                            <input type="submit" value="Supprimer" style="background-color: black; color: white; margin-top: 5px; height: 30px;"/>
-                        </form>   
-                        </div>
-                   
-                   </div>
-                    
-                     <div style="border: 0.5px solid #0B0000; padding-top : 5px;" class="row">
-                    
-                         <div class="col-sm-6"><a class="preview btn btn-outlined btn-primary" href="'.$db_field1['chemin'].'" rel="prettyPhoto"><img src="'.$db_field1['chemin'].'" style="height: 200px; width:300px;"></a></div>
-                    
-                    
-                        <div class="col-sm-6"><p>'.$db_field1['texte'].'</p>
-                        <div style="margin-top: 200px;">
-                            <form method="post" action="pagepost.php">
-                                <input type="hidden" name="idpost" value="'.$idpost.'"/>
-                                <input type="submit" value="Voir les commentaires" style="background-color: black; color: white;"/>
-                            </form>
-                        </div>
-                        
-                        </div>
-                   
-                   </div>
-                </div>'  ;
-                        
-                }
-                }
-    ?>
-                
-	           
- 
-            </div>      
-            </div>
+            
             </div>
                         
 

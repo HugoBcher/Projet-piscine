@@ -14,12 +14,12 @@ session_start();
         require 'configure.php' ;
          if($db_handle && $db_found){
        
-            $interets = $_POST['interets'];
+            $tag1 = $_POST['tag2'];
                 
-                $SQL1 = "UPDATE cv SET interets = '".$interets."' WHERE idutilisateur = (SELECT id FROM utilisateur WHERE pseudo = '".$_SESSION['pseudo']."')";
+                $SQL1 = "UPDATE tutor SET Tag2 = '".$tag1."' WHERE LoginT =  '".$_SESSION['pseudo']."'";
                 $result1 = mysqli_query($db_handle, $SQL1);
               
-                echo '<meta http-equiv="refresh" content="0;URL=vous.php">';
+                echo '<meta http-equiv="refresh" content="0;URL=vousT.php">';
              }
 
             ?>
