@@ -150,7 +150,7 @@ session_start();
                                     $SQLt = "SELECT * FROM tutor WHERE Tag1 = '".$recherche."' OR Level = '".$recherche."' OR Tag2 ='".$recherche."' OR Tag3 ='".$recherche."' OR Tag4 = '".$recherche."' OR School = '".$recherche."' OR Sector = '".$recherche."'";
                                     $resultt = mysqli_query($db_handle, $SQLt);
                                     while($db_fieldt=mysqli_fetch_assoc($resultt)){
-                                        echo '<div> <b> <a href="indexL.php">'.$db_fieldt['LoginT'].'</a></b> - Ecole : '.$db_fieldt['School'].' Bac obtenu : '.$db_fieldt['Tag1'].'</div><br>' ;
+                                        echo '<div> <b> <a href="indexL.php">'.$db_fieldt['FirstName'].' '.$db_fieldt['LastName'].'</a></b> - Ecole : '.$db_fieldt['School'].' <br> Bac obtenu : '.$db_fieldt['Tag1'].' Bac+'.$db_fieldt['Level'].'</div><br>' ;
                                         
                             
                                     }
