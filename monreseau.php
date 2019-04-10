@@ -153,7 +153,48 @@ session_start();
                      <?php
                 require 'configure.php' ;
                 if($db_handle && $db_found){
+                      $SQLid = "SELECT type FROM utilisateur WHERE pseudo = '".$_SESSION['pseudo']."'" ;
+                    $resultid = mysqli_query($db_handle, $SQLid);
+                    $db_fieldid=mysqli_fetch_assoc($resultid);
+                    $type = $db_fieldid['type'];
 
+                    
+                    if($type==0){
+                        
+                         $SQL1 = "SELECT id FROM utilisateur WHERE pseudo = '".$_SESSION['pseudo']."'" ;
+                    $result1 = mysqli_query($db_handle, $SQL1);
+                    $db_field1=mysqli_fetch_assoc($result1);
+                    $id = $db_field1['id'];
+
+                    $SQL2 = "SELECT nom,prenom,id FROM utilisateur WHERE  id IN (SELECT Member1_C FROM chat WHERE Member2_C = '".$id."')" ;
+                   
+                    $result2 = mysqli_query($db_handle, $SQL2);
+                     //$db_field2=mysqli_fetch_assoc($result2);
+                    $idami= 0 ;
+                   
+
+                    while($db_field2=mysqli_fetch_assoc($result2)){
+                     $SQL3 = "SELECT max(date_m),Text, Chat FROM message WHERE chat IN (SELECT ID_C FROM chat WHERE Member2_C = '".$id."' AND Member1_C = '".$db_field2['id']."') ";
+                     $result3 = mysqli_query($db_handle, $SQL3);
+                     $db_field3=mysqli_fetch_assoc($result3);
+                            echo ' 
+                                  <th scope="row">1</th>
+                                  <td> <form action="chat.php?id='.$db_field1['id'].'&id_chat='.$db_field3['Chat'].'" method="post">  <input type="hidden" name="id2" id="id2" value="'.$db_field2['id'].'"/>  <input type="hidden" name="id1" id="id1" value="'.$id.'"/><input type="hidden" name="id_chat" id="id_chat" value="'.$db_field3['Chat'].'"/>   <input type="submit" name="prenom" id="prenom" value="'.$db_field2['prenom'].' '.$db_field2['nom'].'" /> </form></td>
+                                  <td> '.$db_field3['Text'].'  </td>
+                                  <td> '.$db_field3['max(date_m)'].'  </td>
+                                </tr>';                          
+                            
+                         }
+                        
+                        
+                        
+                        
+                        
+                        
+                       
+                    }
+                    else if ($type==1){
+                        
                     $SQL1 = "SELECT id FROM utilisateur WHERE pseudo = '".$_SESSION['pseudo']."'" ;
                     $result1 = mysqli_query($db_handle, $SQL1);
                     $db_field1=mysqli_fetch_assoc($result1);
@@ -178,6 +219,9 @@ session_start();
                                 </tr>';                          
                             
                          }
+                    }
+                    
+                    
                     
                                         
                 }
