@@ -15,12 +15,15 @@ session_start();
     <link href="css/prettyPhoto.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link href="css/chat.css" rel="stylesheet">
     <link href="css/monreseau.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
     <![endif]-->       
     <script src="js/jquery.js"></script>
+    
+    
     <link rel="shortcut icon" href="images/icones/network.png">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144x144.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114x114.png">
@@ -57,6 +60,7 @@ session_start();
     </script>
 </head><!--/head-->
 <body>
+
 <div id="preloader"></div>
       <header class="navbar navbar-inverse navbar-fixed-top " role="banner" style="background-color: #3F90F2;">
         <div class="container">
@@ -131,73 +135,101 @@ session_start();
     
     <div id="content-wrapper" style="margin-top: 100px;">
         <div class="mapage"style="background-color: #3F90F2;"> 
-                            <h1> Mes messages </h1>
+                            <h1> Chat </h1>
                     
                 </div>
         <section id="services" class="white">
           
-            <div class="row">
-                <table class="table">
-                      <thead>
-                        <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">Name</th>
-                          <th scope="col">Last message</th>
-                          <th scope="col">Date</th>
-                        </tr>
-                      </thead>
-                <tbody>
-
-               
-                <div class="col-sm-6"style="margin-left:20px; font-size: 30px;">
-                     <?php
+        <div class="row">
+                
+        <div class="messages" style="margin-left: 25%; border: blue;">
+         <div class="monchat" style=" text-align: center; overflow:scroll; height: 300px; width: 60%; border-style: groove; border-color: #3F90F2; border-radius: 0.8%;">      
+                <div class="center"style=" font-size: 30px;">
+         <?php
                 require 'configure.php' ;
                 if($db_handle && $db_found){
+                    if(array_key_exists("id_chat", $_GET)){
+                          $id_chat = $_GET['id_chat'];
+                        }
 
                     $SQL1 = "SELECT id FROM utilisateur WHERE pseudo = '".$_SESSION['pseudo']."'" ;
                     $result1 = mysqli_query($db_handle, $SQL1);
                     $db_field1=mysqli_fetch_assoc($result1);
-                    $id = $db_field1['id'];
+                    $id_profile = $db_field1['id'];
 
-                    $SQL2 = "SELECT nom,prenom,id FROM utilisateur WHERE  id IN (SELECT Member2_C FROM chat WHERE Member1_C = '".$id."')" ;
+                    $SQL2 = "SELECT Text,id_sender, date_m FROM message WHERE chat = '".$id_chat."' ORDER BY date_m";
                    
                     $result2 = mysqli_query($db_handle, $SQL2);
-                     //$db_field2=mysqli_fetch_assoc($result2);
                     $idami= 0 ;
                    
 
                     while($db_field2=mysqli_fetch_assoc($result2)){
-                     $SQL3 = "SELECT max(date_m),Text, Chat FROM message WHERE chat IN (SELECT ID_C FROM chat WHERE Member1_C = '".$id."' AND Member2_C = '".$db_field2['id']."') ";
-                     $result3 = mysqli_query($db_handle, $SQL3);
-                     $db_field3=mysqli_fetch_assoc($result3);
-                            echo ' 
-                                  <th scope="row">1</th>
-                                  <td> <form action="chat.php?id='.$db_field1['id'].'&id_chat='.$db_field3['Chat'].'" method="post">  <input type="hidden" name="id2" id="id2" value="'.$db_field2['id'].'"/>  <input type="hidden" name="id1" id="id1" value="'.$id.'"/><input type="hidden" name="id_chat" id="id_chat" value="'.$db_field3['Chat'].'"/>   <input type="submit" name="prenom" id="prenom" value="'.$db_field2['prenom'].' '.$db_field2['nom'].'" /> </form></td>
-                                  <td> '.$db_field3['Text'].'  </td>
-                                  <td> '.$db_field3['max(date_m)'].'  </td>
-                                </tr>';                          
+                     if($db_field2["id_sender"]!= $id_profile){
+                            echo ' <div class="incoming_msg">
+                                          <div class="received_msg">
+                                            <div class="received_withd_msg">
+                                              <p> "'.$db_field2['Text'].'"</p>
+                                              <span class="time_date"> "'.$db_field2['date_m'].'"</span></div>
+                                          </div>
+                                    </div> ';   
+
+                                }       
+
+                    else {
+                                echo '<div class="outgoing_msg">
+                                          <div class="sent_msg">
+                                            <p>"'.$db_field2['Text'].'"</p>
+                                            <span class="time_date"> "'.$db_field2['date_m'].'"</span> 
+                                          </div>
+                                      </div>                        ';   
+
+                    }                
                             
                          }
                     
                                         
                 }
-    ?>
-    </tbody>
-    </table>
-                    
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    ?>  
                 </div>
 
 </div>
+                  
+    
+    
+       
+        
+        <div class="reponse" style="width:60%;">
+                     <?php
+                require 'configure.php' ;
+                if($db_handle && $db_found){
+                     if(array_key_exists("id", $_GET)){
+                          $id1 = $_GET['id'];
+                        }
+                     if(array_key_exists("id_chat", $_GET)){
+                          $id_chat = $_GET['id_chat'];
+                        }
 
-            
-           
+                    echo '<form action="post_msg.php" method="POST">
+                             <div class="panel-footer">
+                                 <div class="input-group">
+                                    <input id="content" name = "content" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." />
+                                    <input type="hidden" name="id_chat" id="id_chat" value="'.$id_chat.'"/>
+                                    <input type="hidden" name="id1" id="id1" value="'.$id1.'"/>
+                                    <span class="input-group-btn"> 
+                                    <button class="btn btn-primary btn-sm" type="submit">Send</button>
+                                    </span>
+                                </div>
+                            </div>  
+                        </form>' ;
+                    }
+
+
+                    ?>
+                        
+              </div> 
+        </div>    
         </section>
+
     </div>
     <div id="footer-wrapper">
         
@@ -224,10 +256,11 @@ session_start();
             </div>
         </footer><!--/#footer-->
     </div>
-
-    <script src="js/bootstrap.min.js"></script>
+     
+  <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.prettyPhoto.js"></script>
     <script src="js/plugins.js"></script>
     <script src="js/init.js"></script>
 </body>
+
 </html>

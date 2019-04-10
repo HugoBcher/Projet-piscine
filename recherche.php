@@ -140,17 +140,29 @@ session_start();
                         
           
                     </div><!-- row --> 
+                    
                     <?php
                                  require 'configure.php' ;
                                 if($db_handle && $db_found){
-                                    
+                                    $SQLid = "SELECT id FROM utilisateur WHERE pseudo = '".$_SESSION['pseudo']."'" ;
+                                    $resultid = mysqli_query($db_handle, $SQLid);
+                                    $db_fieldid=mysqli_fetch_assoc($resultid);
+                                    $id = $db_fieldid['id'];
                                     $recherche = $_POST['rech'];
                                     echo'<div> <h3>TUTEURS</h3> </div>';
                                     
                                     $SQLt = "SELECT * FROM tutor WHERE Tag1 = '".$recherche."' OR Level = '".$recherche."' OR Tag2 ='".$recherche."' OR Tag3 ='".$recherche."' OR Tag4 = '".$recherche."' OR School = '".$recherche."' OR Sector = '".$recherche."'";
                                     $resultt = mysqli_query($db_handle, $SQLt);
+                                    
+                                    
                                     while($db_fieldt=mysqli_fetch_assoc($resultt)){
-                                        echo '<div> <b> <a href="indexL.php">'.$db_fieldt['FirstName'].' '.$db_fieldt['LastName'].'</a></b> - Ecole : '.$db_fieldt['School'].' <br> Bac obtenu : '.$db_fieldt['Tag1'].' Bac+'.$db_fieldt['Level'].'</div><br>' ;
+                                        
+                                        $SQLid2 = "SELECT id FROM utilisateur WHERE pseudo = '".$db_fieldt['LoginT']."'";
+                                        $resultid2 = mysqli_query($db_handle, $SQLid2);
+                                        $db_fieldid2=mysqli_fetch_assoc($resultid2);
+                                     
+                                        echo $db_fieldid2['id'];
+                                        echo '<div> <b> <form action="chatrecherche.php?id='.$id.'&id2='.$db_fieldid2['id'].'" method="post">  <input type="submit" name="prenom" id="prenom" value="'.$db_fieldt['FirstName'].' '.$db_fieldt['LastName'].'" /> </form></b> - Ecole : '.$db_fieldt['School'].' <br> Bac obtenu : '.$db_fieldt['Tag1'].' Bac+'.$db_fieldt['Level'].'</div><br>' ;
                                         
                             
                                     }
