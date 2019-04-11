@@ -129,11 +129,12 @@ session_start();
 
 
     
-    <div id="content-wrapper" style="margin-top: 100px;">
-        <div class="mapage"style="background-color: #3F90F2;"> 
-                            <h1> Mes messages </h1>
+    <div id="content-wrapper" style="margin-top: 81px;">
+         <div class="mapage"style="background-color: #ABBED6;"> 
+                            
+                            <h1> <br>Mes messages </h1>
                     
-                </div>
+        </div>
         <section id="services" class="white">
           
             <div class="row">

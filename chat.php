@@ -130,14 +130,34 @@ session_start();
             </div>
         </div>
     </header><!--/header-->
-
-
     
-    <div id="content-wrapper" style="margin-top: 100px;">
-        <div class="mapage"style="background-color: #3F90F2;"> 
-                            <h1> Chat </h1>
+     <?php
+                require 'configure.php' ;
+                if($db_handle && $db_found){
+                    if(array_key_exists("id_chat", $_GET)){
+                          $id_chat = $_GET['id_chat'];
+                        }
+                    if($type==1){
+
+                $SQLnom = "SELECT prenom, nom FROM utilisateur WHERE id = (SELECT Member2_C FROM chat WHERE ID_C=".$id_chat.")";
+                    $resultnom = mysqli_query($db_handle, $SQLnom);
+                    $db_fieldnom=mysqli_fetch_assoc($resultnom);
+                    }
+                    if($type==0){
+                         $SQLnom = "SELECT prenom, nom FROM utilisateur WHERE id = (SELECT Member1_C FROM chat WHERE ID_C=".$id_chat.")";
+                    $resultnom = mysqli_query($db_handle, $SQLnom);
+                    $db_fieldnom=mysqli_fetch_assoc($resultnom);
+                    }
+                }
                     
-                </div>
+    ?>
+    
+     <div id="content-wrapper" style="margin-top: 81px;">
+         <div class="mapage"style="background-color: #ABBED6;"> 
+                            
+                            <h1> <br>Chat avec : <?php echo  ''.$db_fieldnom['prenom'].' '.$db_fieldnom['nom'].'' ?></h1>
+                    
+        </div>
         <section id="services" class="white">
           
         <div class="row">

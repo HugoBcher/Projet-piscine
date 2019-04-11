@@ -159,13 +159,12 @@ session_start();
                                         
                                         
                                      
-                                        echo $db_fieldt['id'];
-                                        echo '<div> <b> <form action="chatrecherche.php?id='.$id.'&id2='.$db_fieldt['id'].'" method="post">  <input type="submit" name="prenom" id="prenom" value="'.$db_fieldt['FirstName'].' '.$db_fieldt['LastName'].'" /> </form></b> - Ecole : '.$db_fieldt['School'].' <br> Bac obtenu : '.$db_fieldt['Tag1'].' Bac+'.$db_fieldt['Level'].'</div><br>' ;
+                                        echo '<div> <b> <form action="chatrecherche.php?id='.$id.'&id2='.$db_fieldt['id'].'" method="post">  <input type="submit" name="prenom" id="prenom" value="'.$db_fieldt['FirstName'].' '.$db_fieldt['LastName'].'" /> </form></b>  <b>Ecole : </b>'.$db_fieldt['School'].' <br> <b>Bac obtenu</b> : '.$db_fieldt['Tag1'].' <br> Actuellement en Bac+'.$db_fieldt['Level'].'</div><br>' ;
                                         
                             
                                     }
                                     echo'<div> <h3> ECOLES</h3> </div>';
-                                    $SQLschool = "SELECT * FROM school WHERE Name = '".$recherche."'";
+                                    $SQLschool = "SELECT * FROM school WHERE Name = '".$recherche."' OR Tag1 ='".$recherche."'";
                                     $resultschool = mysqli_query($db_handle, $SQLschool);
                                     while($db_fieldschool=mysqli_fetch_assoc($resultschool)){
                                         echo '<div> <b> <a href="indexL.php">'.$db_fieldschool['Name'].'</a></b> - '.$db_fieldschool['Description'].'</div><br> ' ;
